@@ -5,6 +5,7 @@ import java.util.Objects;
 public class MyHashMap<K, V> implements MyMap<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
     private static final double DEFAULT_LOAD_FACTOR = .75;
+    private static final int INCREASING_COEFFICIENT = 2;
 
     private int size;
     private int capacity = DEFAULT_CAPACITY;
@@ -45,22 +46,9 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         return size;
     }
 
-    private static class Entry<K, V> {
-        private final K key;
-        private final int hash;
-        private V value;
-        private Entry<K, V> next;
-
-        public Entry(K key, V value) {
-            this.key = key;
-            this.hash = getHash(key);
-            this.value = value;
-        }
-    }
-
     private void increaseBuckets() {
         size = 0;
-        capacity *= 2;
+        capacity *= INCREASING_COEFFICIENT;
         Entry<K, V>[] oldEntries = table;
         table = new Entry[capacity];
         for (Entry<K, V> entry : oldEntries) {
@@ -97,5 +85,18 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
     private static <K> int getHash(K key) {
         return key == null ? 0 : key.hashCode();
+    }
+
+    private static class Entry<K, V> {
+        private final K key;
+        private final int hash;
+        private V value;
+        private Entry<K, V> next;
+
+        public Entry(K key, V value) {
+            this.key = key;
+            this.hash = getHash(key);
+            this.value = value;
+        }
     }
 }
