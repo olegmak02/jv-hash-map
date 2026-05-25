@@ -13,19 +13,6 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     public MyHashMap() {
     }
 
-    private static class Entry<K, V> {
-        private final K key;
-        private final int hash;
-        private V value;
-        private Entry<K, V> next;
-
-        public Entry(K key, V value) {
-            this.key = key;
-            this.hash = getHash(key);
-            this.value = value;
-        }
-    }
-
     @Override
     public void put(K key, V value) {
         if (size + 1 > capacity * DEFAULT_LOAD_FACTOR) {
@@ -56,6 +43,19 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     @Override
     public int getSize() {
         return size;
+    }
+
+    private static class Entry<K, V> {
+        private final K key;
+        private final int hash;
+        private V value;
+        private Entry<K, V> next;
+
+        public Entry(K key, V value) {
+            this.key = key;
+            this.hash = getHash(key);
+            this.value = value;
+        }
     }
 
     private void increaseBuckets() {
